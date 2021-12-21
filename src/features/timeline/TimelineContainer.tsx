@@ -1,14 +1,21 @@
-import { useCallback } from 'react';
-import { Button, Card, Col, Container, Row } from 'react-bootstrap';
+import { useEffect } from 'react';
+import { Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import LoadingContainer from '../common/components/LoadingContainer';
+import TimelineCard from './TimelineCard';
+import { fetchShowsAsync } from './timelineSlice';
 
 const WrappedTitle = styled.h2`
   color: red;
 `;
 
 const TimelineContainer: React.FC = () => {
-  const handleClick = useCallback(() => {
-    console.log('click on button');
+  const dispatch = useAppDispatch();
+  const { shows, isLoading } = useAppSelector((state) => state.timeline);
+
+  useEffect(() => {
+    dispatch(fetchShowsAsync());
   }, []);
 
   return (
@@ -16,24 +23,11 @@ const TimelineContainer: React.FC = () => {
       <Row>
         <WrappedTitle>Timeline area</WrappedTitle>
       </Row>
-      <Row>
-        <Col>left part</Col>
-        <Col>
-          <h3>Right part</h3>
-          <Card>
-            <Card.Body>
-              <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up the bulk of the cards
-                content.
-              </Card.Text>
-              <Button variant="primary" onClick={handleClick}>
-                Go somewhere
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+      {isLoading ? (
+        <LoadingContainer />
+      ) : (
+        shows.map((show) => <TimelineCard show={show} key={show.id} />)
+      )}
     </Container>
   );
 };
