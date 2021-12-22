@@ -10,6 +10,22 @@ const WrappedTitle = styled.h2`
   color: red;
 `;
 
+const Timeline = styled.div`
+  position: relative;
+  margin: 0 auto;
+
+  &:after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    background-color: red;
+    top: 5px;
+    bottom: 0;
+    left: 33%;
+    margin-left: -2px;
+  }
+`;
+
 const TimelineContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const { shows, isLoading } = useAppSelector((state) => state.timeline);
@@ -19,16 +35,22 @@ const TimelineContainer: React.FC = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <Row>
         <WrappedTitle>Timeline area</WrappedTitle>
       </Row>
-      {isLoading ? (
-        <LoadingContainer />
-      ) : (
-        shows.map((show) => <TimelineCard show={show} key={show.id} />)
-      )}
-    </Container>
+      <Container fluid>
+        {isLoading ? (
+          <LoadingContainer />
+        ) : (
+          <Timeline>
+            {shows.map((show) => (
+              <TimelineCard show={show} key={show.id} />
+            ))}
+          </Timeline>
+        )}
+      </Container>
+    </>
   );
 };
 

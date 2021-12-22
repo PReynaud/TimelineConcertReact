@@ -1,10 +1,43 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Button, Card, Col, Container, Row } from 'react-bootstrap';
 import styled from 'styled-components';
+import { displayDateFromString } from '../../utils/date.utils';
 import { Show } from '../common/models/Show.model';
 
-const WrappedTitle = styled.h2`
-  color: red;
+const DateDisplay = styled.h4`
+  float: right;
+  font-size: 16px;
+  line-height: 32px;
+`;
+
+const TimelineItemContainer = styled(Container)`
+  margin-bottom: 10px;
+`;
+
+const LeftCol = styled(Col)`
+  padding-right: 30px;
+`;
+
+const RightCol = styled(Col)`
+  padding-left: 20px;
+`;
+
+const TimelineItemCircle = styled.div`
+  padding: 0px 40px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -37px; // 7px + value of padding-right in LeftCol
+    background-color: white;
+    border: 4px solid red;
+    top: 5px;
+    border-radius: 50%;
+    z-index: 1;
+  }
 `;
 
 interface TimelineCardProps {
@@ -16,12 +49,16 @@ const TimelineCard: React.FC<TimelineCardProps> = ({ show }: TimelineCardProps) 
     console.log('click on button', show.id);
   }, []);
 
+  const dateDisplayed = useMemo(() => displayDateFromString(show.date), [show.date]);
+
   return (
-    <Container>
+    <TimelineItemContainer>
       <Row>
-        <Col>left part</Col>
-        <Col>
-          <h3>Right part</h3>
+        <LeftCol xs={4}>
+          <DateDisplay>{dateDisplayed}</DateDisplay>
+          <TimelineItemCircle />
+        </LeftCol>
+        <RightCol xs={8}>
           <Card>
             <Card.Body>
               <Card.Title>{show.band.name}</Card.Title>
@@ -34,9 +71,9 @@ const TimelineCard: React.FC<TimelineCardProps> = ({ show }: TimelineCardProps) 
               </Button>
             </Card.Body>
           </Card>
-        </Col>
+        </RightCol>
       </Row>
-    </Container>
+    </TimelineItemContainer>
   );
 };
 

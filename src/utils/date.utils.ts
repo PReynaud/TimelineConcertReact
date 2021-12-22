@@ -15,3 +15,8 @@ export function parseDate(date: string): Date {
 export function getYear(date: Date): number {
   return getYearDfns(date);
 }
+
+export function displayDateFromString(date: string): string {
+  const currentDate = parseDate(date);
+  return formatDate(currentDate);
+}

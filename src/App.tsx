@@ -14,12 +14,12 @@ const App: React.FC = () => {
         </Col>
       </Row>
       <Row>
-        <Container>
+        <Container fluid>
           <Row>
-            <Col xs={5}>
+            <Col md={4} className="d-none d-md-block">
               <FiltersContainer />
             </Col>
-            <Col xs={7}>
+            <Col xs={12} md={8}>
               <TimelineContainer />
             </Col>
           </Row>

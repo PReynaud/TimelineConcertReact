@@ -3,7 +3,7 @@ import { Place, placeFromJson } from './Place.model';
 
 export interface Show {
   id: string;
-  date: Date;
+  date: string;
   band: Band;
   place?: Place;
 }

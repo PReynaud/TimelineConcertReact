@@ -7,6 +7,6 @@ export function fetchShows(): Promise<Show[]> {
     setTimeout(() => {
       const response = ShowsData.results.map(showfromJson);
       return resolve(response);
-    }, 2000)
+    }, 500)
   );
 }
